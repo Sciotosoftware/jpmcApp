@@ -16,16 +16,28 @@ public class StringParser {
 
     public static List<Integer> parseInputStr(@Nullable String stringToSplit) {
         List<Integer> intList = new ArrayList<>();
-        if(!StringUtils.isNumericSpace(stringToSplit)){
+       /* if(!StringUtils.isNumericSpace(stringToSplit)){
             return intList;
-        }
-        String delimiter = ""; //NOT related to delimiter
-        String[] tempArray = stringToSplit.split(delimiter);
-        for(String s : tempArray) {//Potential failure point; try-catch?
-            if(StringUtils.isNumeric(s)){
+        }*/
+        String[] tempArray = stringToSplit.split(" ");
+        for(String s : tempArray) {
+            try{
                 int i = Integer.parseInt(s);
                 intList.add(i);
+            }catch(NumberFormatException e){
+                //If ANY errors are encountered, invalidate the entire input!!
+                System.out.println(e + "on StringParser parseInputStr");
+                intList.clear();
+                return intList;
             }
+            //Strip invalid characters from s;
+            /*if(StringUtils.isNumeric(s)){
+                intList.add(i);
+            }else{
+                //If ANY errors are encountered, invalidate the entire input!!
+                intList.clear();
+                return intList;
+            }*/
         }
         //May pass Empty strings into Empty Lists. That's fine, the list is later validated by length.
         return intList;
