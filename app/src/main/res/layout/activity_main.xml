@@ -7,34 +7,52 @@
     tools:context=".MainActivity">
 
     <android.support.design.widget.TextInputEditText
-        android:id="@+id/rangeInputTxt"
+        android:id="@+id/dollarInputTxt"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:hint="Enter the daily gains. Maximum Set: 10,000 days."
-        android:inputType="text"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
+        android:hint="Text Dollar"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/dollarToTextTranslateBTN"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profitInputTxt"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/profitInputTxt"
+        android:layout_width="0dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="9dp"
+        android:hint="MaxRangeInput"
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/dollarInputTxt"
+        app:layout_constraintEnd_toStartOf="@+id/dollarInputTxt"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
-        android:id="@+id/rangeOutputTxt"
+        android:id="@+id/dualOutputTxt"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="49dp"
-        android:text="Ideal Investment Period:"
+        android:layout_marginTop="76dp"
+        android:text="Dual Output"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangeInputTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/profitInputTxt" />
 
     <Button
         android:id="@+id/calculateMaxReturnBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
         android:text="Calculate"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rangeInputTxt" />
+        app:layout_constraintTop_toBottomOf="@+id/profitInputTxt" />
 
     <Button
         android:id="@+id/openFragmentBTN"
@@ -45,5 +63,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/dollarToTextTranslateBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="16dp"
+        android:text="Translate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

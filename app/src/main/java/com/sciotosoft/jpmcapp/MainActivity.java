@@ -17,11 +17,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //todo: In order to upload this project in a timely manner, I had to disable Git SSL verification. Later, I will need to enable and resolve SSL issues.
     //todo: Time Permitting, I would have created an additional Fragment for the Max Range problem, leaving MainActivity empty of its logic.
+    //todo: Time Permitting, I would install a variety of virtual devices and test that this application works and looks as intended on machines other than my Samsung J7 Sky Pro.
 
     static final int lowerLimit = 2;
     static final int upperLimit = 10000;
     private static final NullPointerException validationError = new NullPointerException();
     String inputString;
+    String inputDollar;
+
     //List<ActionCase> caseList = new ArrayList<ActionCase>();
     //List<Integer> dailyChanges = new ArrayList<>();
 
@@ -34,16 +37,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextInputEditText rangeInputText = this.findViewById(R.id.rangeInputTxt);
-
+        final TextInputEditText profitInputText = this.findViewById(R.id.profitInputTxt);
+        final TextInputEditText dollarInputText = this.findViewById(R.id.dollarInputTxt);
 
         Button calculateBtn = this.findViewById(R.id.calculateMaxReturnBTN);
+        Button dollarTranslateBtn = this.findViewById(R.id.dollarToTextTranslateBTN);
+
         calculateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    inputString = rangeInputText.getText().toString();
-                    rangeButtonClicked(inputString);
+                    inputString = profitInputText.getText().toString();
+                    calculateButtonClicked(inputString);
+                } catch (NullPointerException e) {
+                    System.out.println(e + "NullPointerException at MainActivity onClick");
+                }
+            }
+        });
+
+        dollarTranslateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                try {
+                    inputDollar = dollarInputText.getText().toString();
+                    translateButtonButtonClicked(inputDollar);
                 } catch (NullPointerException e) {
                     System.out.println(e + "NullPointerException at MainActivity onClick");
                 }
@@ -51,21 +68,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //with more time I would switch rangeButtonClicked to another method that runs when the user closes the
+    //with more time I would switch calculateButtonClicked to another method that runs when the user closes the
     //keyboard by tap out of licking "done".
-    private void rangeButtonClicked(String inputStr) {
-        List<Integer> inputList = StringParser.parseInputStr(inputStr);
-        TextInputEditText rangeInputText = this.findViewById(R.id.rangeInputTxt);
+    private void calculateButtonClicked(String inputStr) {
+        List<Integer> inputList = StringParser.parseProfitInput(inputStr);
+        TextInputEditText profitInputText = this.findViewById(R.id.profitInputTxt);
         System.out.println("chk1");
-        TextView rangeOutputText = this.findViewById(R.id.rangeOutputTxt);
         System.out.println("chk2");
         try {
             if (inputList.size() >= lowerLimit && inputList.size() <= upperLimit) {
-                //rangeOutputText.setText(runTheNumbers(inputList).gain);
                 ActionCase bestProfit = runTheNumbers(inputList);
-                rangeInputText.setText("");
+                profitInputText.setText("");
                 if(bestProfit.run > 0){ //Protect against divide by 0 error.
-                    TextView outputText = this.findViewById(R.id.rangeOutputTxt);
+                    TextView outputText = this.findViewById(R.id.dualOutputTxt);
                     outputText.setText("Max Value Gain: " + bestProfit.gain +
                             "\nEntry Day: " + bestProfit.entryDay +
                             "\nExit Day: " + bestProfit.exitDay +
@@ -75,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("NO INVESTMENT HAS BEEN MADE!");
                 }
             } else {
-                rangeInputText.setText(""); //Clear interface to allow user to enter a fresh set
+                profitInputText.setText(""); //Clear interface to allow user to enter a fresh set
                 Toast toast = Toast.makeText(getApplicationContext(), "Input Error: Enter between (2) and (10,000) Integers." +
                         "\nSeparate each integer with a single space. " +
                         "\n1 5 -3 15 -26 8+ 1 13", Toast.LENGTH_SHORT);
@@ -86,10 +101,17 @@ public class MainActivity extends AppCompatActivity {
                 //                        "\n1 5 -3 15 -26 8+ 1 13"
             }
         } catch (NullPointerException e) {
-            System.out.println(e + "Exception on MainActivity.rangeButtonClicked");
+            System.out.println(e + "Exception on MainActivity.calculateButtonClicked");
         }
         System.out.println("chk3");
 
+    }
+
+    private void translateButtonButtonClicked(String inputDollar){
+        System.out.println("InputDollar: " + inputDollar);
+        TextView output = this.findViewById(R.id.dualOutputTxt);
+        String outputStr = StringParser.parseDollarInput(inputDollar);
+        output.setText(outputStr);
     }
 
     private ActionCase runTheNumbers(@NotNull List<Integer> input) {
